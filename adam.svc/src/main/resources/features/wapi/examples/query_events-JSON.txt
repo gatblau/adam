@@ -1,0 +1,16 @@
+REQUEST:
+http://localhost:8080/adam/wapi/event/query?max=3&type=ALL&from=01-01-1900-00:00&to=01-01-2100-00:00
+Method: GET
+
+REQUEST HEADERS:
+Accept: application/json
+Content-Type: application/json
+
+RESPONSE:
+[{"id":5,"eventType":"INFO","code":"I2","eventId":"ABC_005","processId":"PROC_12","description":"This is a test event","info":"The event information is described here...","service":"A-Service3","node":"S1","eventTime":1430434800000},{"id":4,"eventType":"ERROR","code":"E2","eventId":"ABC_004","processId":"PROC_12","description":"This is a test event","info":"The event information is described here...","service":"A-Service3","node":"S1","eventTime":1427842800000},{"id":3,"eventType":"WARNING","code":"W1","eventId":"ABC_003","processId":"PROC_12","description":"This is a test event","info":"The event information is described here...","service":"A-Service3","node":"S1","eventTime":1425168000000}]
+
+RESPONSE HEADERS:
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+Content-Type: application/json
+Transfer-Encoding: chunked

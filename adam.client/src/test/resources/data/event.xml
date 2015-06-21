@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <EVENTLOG
+            id="1"
+            code="E1"
+            description="This is a test event"
+            eventId="ABC_001"
+            processId="PROC_12"
+            node="S1"
+            info="The event information is described here..."
+            service="A-Service"
+            eventTime="2015-01-01"
+            eventType="ERROR"/>
+</dataset>

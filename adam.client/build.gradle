@@ -1,0 +1,27 @@
+configurations {
+    compile.extendsFrom(providedCompile {
+        visible false
+        transitive false
+        allDependencies.all {
+            dep -> configurations.default.exclude(group: dep.group, module: dep.name)
+        }
+    })
+}
+
+dependencies {
+    compile project(":adam.api")
+    compile lib.jackson
+    compile lib.jackson_provider
+    compile lib.slf4j
+    compile lib.logback
+    compile lib.jax_rs_client
+    providedCompile lib.jax_rs
+    providedCompile lib.cdi
+    providedCompile lib.activemq_core
+    testCompile lib.junit
+    testCompile lib.cucumber_junit
+    testCompile lib.cucumber_weld
+    testCompile lib.mysql
+    testCompile lib.dbunit
+    testRuntime lib.weld_se
+}

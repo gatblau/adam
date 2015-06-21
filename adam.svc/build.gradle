@@ -1,0 +1,50 @@
+apply plugin: 'war'
+apply plugin: 'com.bmuschko.cargo'
+
+repositories {
+    maven {
+        url 'https://maven.repository.redhat.com/techpreview/all'
+    }
+}
+
+dependencies {
+    compile project(':adam.api')
+    compile lib.jackson
+
+    providedCompile lib.jpa
+    providedCompile lib.jax_rs
+    providedCompile lib.ejb
+    providedCompile lib.ejb_ext
+    providedCompile lib.cdi
+    providedCompile lib.jms
+
+    testCompile lib.weld_se
+    testCompile lib.cucumber_weld
+    testCompile lib.cucumber_junit
+    testCompile lib.junit
+
+    cargo   "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
+            "org.codehaus.cargo:cargo-ant:$cargoVersion",
+            'org.jboss.as:jboss-as-controller-client:7.4.0.Final-redhat-19'
+
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.bmuschko:gradle-cargo-plugin:2.1.1'
+    }
+}
+
+cargo {
+    containerId = cargoContainer
+    port = cargoPort
+    remote {
+        hostname = cargoHost
+        username = cargoUser
+        password = cargoPwd
+    }
+}

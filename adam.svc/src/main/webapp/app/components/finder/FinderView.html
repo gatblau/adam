@@ -1,0 +1,61 @@
+<div ng-controller="FinderController">
+    <div class="container">
+    <form class="form-inline">
+        <div class="form-group">
+            <label class="sr-only" for="eventIdInput">From</label>
+            <input type="text" class="form-control" id="eventIdInput" ng-model="eventId" tooltip="Event Identifier">
+        </div>
+        <button class="btn btn-primary" ng-click="getEvent(eventId)">Search</button>
+            <div class="row clearfix">
+                <div class="col-md-12 column">
+                    <table class="table" ng-show="showEvent">
+                        <thead>
+                            <tr>
+                                <th>Attribute</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Event Id</td>
+                                <td>{{event.eventId}}</td>
+                            </tr>
+                            <tr>
+                                <td>Process Id</td>
+                                <td>{{event.processId}}</td>
+                            </tr>
+                            <tr>
+                                <td>Code</td>
+                                <td>{{event.code}}</td>
+                            </tr>
+                            <tr>
+                                <td>Type</td>
+                                <td>{{event.type}}</td>
+                            </tr>
+                            <tr>
+                                <td>Service</td>
+                                <td>{{event.service}}</td>
+                            </tr>
+                            <tr>
+                                <td>Node</td>
+                                <td>{{event.node}}</td>
+                            </tr>
+                            <tr>
+                                <td>Message</td>
+                                <td>{{event.description}}</td>
+                            </tr>
+                            <tr>
+                                <td>Time</td>
+                                <td>{{event.time | date:"hh-MM-yyyy-HH:mm"}}</td>
+                            </tr>
+                            <tr>
+                                <td>Info</td>
+                                <td>{{event.info}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

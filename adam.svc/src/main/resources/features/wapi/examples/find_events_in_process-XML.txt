@@ -1,0 +1,16 @@
+REQUEST:
+http://localhost:8080/adam/wapi/event?procId=PROC_12
+Method: GET
+
+REQUEST HEADERS:
+Accept: application/xml
+Content-Type: application/xml
+
+RESPONSE:
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><collection><eventInfo><code>I2</code><description>This is a test event</description><eventId>ABC_005</eventId><info>The event information is described here...</info><node>S1</node><processId>PROC_12</processId><service>A-Service3</service><type>INFO</type></eventInfo><eventInfo><code>E2</code><description>This is a test event</description><eventId>ABC_004</eventId><info>The event information is described here...</info><node>S1</node><processId>PROC_12</processId><service>A-Service3</service><type>ERROR</type></eventInfo><eventInfo><code>W1</code><description>This is a test event</description><eventId>ABC_003</eventId><info>The event information is described here...</info><node>S1</node><processId>PROC_12</processId><service>A-Service3</service><type>WARNING</type></eventInfo><eventInfo><code>I1</code><description>This is a test event</description><eventId>ABC_002</eventId><info>The event information is described here...</info><node>S1</node><processId>PROC_12</processId><service>A-Service2</service><type>INFO</type></eventInfo><eventInfo><code>E1</code><description>This is a test event</description><eventId>ABC_001</eventId><info>The event information is described here...</info><node>S1</node><processId>PROC_12</processId><service>A-Service1</service><type>ERROR</type></eventInfo></collection>
+
+RESPONSE HEADERS:
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+Content-Type: application/xml
+Content-Length: 1370

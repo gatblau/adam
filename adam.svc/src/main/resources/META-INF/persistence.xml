@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+    <persistence-unit name="adam" transaction-type="JTA">
+        <description>
+            Persistence unit for the event log database.
+        </description>
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <jta-data-source>java:/datasources/adam</jta-data-source>
+        <class>org.gatblau.adam.EventLog</class>
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.format_sql" value="true" />
+            <property name="hibernate.hbm2ddl.auto" value="validate" />
+        </properties>
+    </persistence-unit>
+</persistence>

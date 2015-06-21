@@ -1,0 +1,16 @@
+REQUEST:
+http://localhost:8080/adam/wapi/event/ABC_001
+Method: GET
+
+REQUEST HEADERS:
+Accept: application/json
+Content-Type: application/json
+
+RESPONSE:
+{"eventId":"ABC_001","processId":"PROC_12","node":"S1","time":1434817879203,"type":"ERROR","code":"E1","description":"This is a test event","service":"A-Service","info":"The event information is described here..."}
+
+RESPONSE HEADERS:
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+Content-Type: application/json
+Transfer-Encoding: chunked

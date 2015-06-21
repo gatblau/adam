@@ -1,0 +1,6 @@
+rootProject.name = 'adam'
+
+include 'adam.api'
+include 'adam.svc'
+include 'adam.client'
+
