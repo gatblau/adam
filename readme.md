@@ -185,7 +185,7 @@ The following exerpt shows a simplistic view of how to publish an event message:
 ```Java
 	public class MyClass {
 		@Inject
-		private MessageClient client;
+		private EventInfoMessageClient client;
 		
 		public void myMethod() {
 			try {
