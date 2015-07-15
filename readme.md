@@ -5,9 +5,10 @@ ADAM is an event aggregator micro service that records system events in a centra
 ## Index
 1. [Overview](#overview) 
 2. [Usage Scenarios](#usage_scenarios)          
-2. [Architecture](#architecture)   
-3. [Integration Tests](#integration_tests)
-3. [Configuration](#configuration)
+3. [Architecture](#architecture)   
+4. [Integration Tests](#integration_tests)
+5. [Configuration](#configuration)
+6. [DevOps - Environment Automation](adam.platform/readme.md) 
 
 <a name="overview"></a>
 ## Overview
@@ -224,7 +225,9 @@ Once the environment is ready, the tests can be run by navigating to the **adam.
 ### Configuration Checklist
 
 
-The following is an environment configuration checklist which leads to the execution of the automated end to end tests.   
+The following is an environment configuration checklist which leads to the execution of the automated end to end tests. 
+
+> **NOTE**: the [DevOps](adam.platform/readme.md) section provides a  description of the automation scripts that create, configure and package the full environment into a [Vagrant base box](http://docs.vagrantup.com/v2/boxes.html) ready to use.  
 
 1. Ensure you have installed the message broker. It can be downloaded from [here](http://activemq.apache.org/download.html). 
 2. Once unzipped, start the broker by executing **activemq start** from the command line. 
