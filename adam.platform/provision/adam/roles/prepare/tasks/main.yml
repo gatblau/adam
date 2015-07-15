@@ -1,0 +1,6 @@
+---
+- name: Installing the Unzip tool
+  yum: name=unzip state=present
+
+- name: Upgrading ALL packages
+  yum: name=* state=latest

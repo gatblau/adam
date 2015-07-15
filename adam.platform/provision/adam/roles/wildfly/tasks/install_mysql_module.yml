@@ -1,0 +1,14 @@
+---
+- name: Creating the MySQL module folder
+  file: path={{wildfly_install_path}}/{{wildfly_name}}/modules/system/layers/base/com/mysql/main state=directory mode=0755
+
+- name: Copying the module.xml file to the remote host
+  template:
+    src=module.xml.j2
+    dest={{wildfly_install_path}}/{{wildfly_name}}/modules/system/layers/base/com/mysql/main/module.xml
+    mode=0755
+
+- name: Copying the JDBC connector compressed file to the remote server
+  copy:
+    src={{jdbc_connector_jar}}
+    dest={{wildfly_install_path}}/{{wildfly_name}}/modules/system/layers/base/com/mysql/main

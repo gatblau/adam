@@ -1,0 +1,9 @@
+---
+  - name: Copying ADAM Web Archive to the remote server
+    copy: src=adam.war dest=/tmp/adam.war
+
+  - name: Deploying the ADAM Web Archve to Wildfly
+    command: '{{wildfly_install_path}}/default/bin/jboss-cli.sh --connect --command="deploy /tmp/adam.war --force"'
+
+  - name: Removing ADAM's Web Archive
+    file: path=/tmp/adam.war state=absent

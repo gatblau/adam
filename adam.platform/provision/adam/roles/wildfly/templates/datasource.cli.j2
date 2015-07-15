@@ -1,0 +1,39 @@
+# configures Wildfly data source for ADAM
+
+connect
+batch
+
+# removes the example datasource
+data-source remove --name=ExampleDS
+
+# removes the h2 jdbc driver
+/subsystem=datasources/jdbc-driver=h2:remove
+
+# adds the mysql jdbc driver
+/subsystem=datasources/jdbc-driver=mysql:add( \
+    driver-name="mysql", \
+    driver-module-name="com.mysql", \
+    driver-datasource-class-name="com.mysql.jdbc.Driver" \
+)
+
+# adds the ADAM datasource
+data-source add \
+    --name=ADAM \
+    --driver-name=mysql \
+    --connection-url=jdbc:mysql://localhost:3306/adam \
+    --jndi-name=java:/datasources/adam \
+    --jta=true \
+    --min-pool-size=5 \
+    --max-pool-size=15 \
+    --user-name={{db_user}} \
+    --password={{db_password}}
+
+# changes the default binding
+/subsystem=ee/service=default-bindings:write-attribute( \
+    name=datasource, \
+    value=java:/datasources/adam \
+)
+
+# executes and reloads
+run-batch
+:reload

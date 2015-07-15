@@ -1,0 +1,8 @@
+---
+- name: Checking if JDK is installed
+  stat: path=/usr/java
+  register: sdk_dir
+
+- name: Installing JDK
+  include: install_oracle_jdk_rpm.yml
+  when: not sdk_dir.stat.exists

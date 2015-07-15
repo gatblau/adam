@@ -1,0 +1,9 @@
+---
+- name: Copying the data source configuration CLI script to the remote server
+  template: src=datasource.cli.j2 dest=/tmp/datasource.cli mode=0755
+
+- name: Executing CLI commands to setup the ADAM data source in Wildfly
+  command: "{{wildfly_install_path}}/default/bin/jboss-cli.sh --file=/tmp/datasource.cli"
+
+- name: Removing CLI script
+  file: path=/tmp/datasource.cli state=absent

@@ -1,0 +1,12 @@
+---
+- name: Creating the ADAM Database
+  mysql_db: name={{db_name}} state=present
+
+- name: Copying the {{db_name}} schema file to the remote host
+  copy: src={{db_schema_file}} dest=/tmp
+
+- name: Importing ADAM's Database Schema
+  mysql_db: state=import name={{db_name}} target=/tmp/{{db_schema_file}}
+
+- name: Removing the {{db_name}} schema file from the remote host
+  file: path=/tmp/{{db_schema_file}} state=absent

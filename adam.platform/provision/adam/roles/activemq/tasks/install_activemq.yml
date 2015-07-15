@@ -1,0 +1,37 @@
+---
+- name: Copying ActiveMQ to the remote server
+  copy: src={{activemq_tar_filename}} dest=/tmp/{{activemq_tar_filename}}
+
+- name: Creating the ActiveMQ installation folder
+  file: path={{activemq_install_path}} state=directory mode=0755
+
+- name: Unpacking ActiveMQ
+  action: command tar -zxvf /tmp/{{activemq_tar_filename}} -C {{activemq_install_path}}
+
+- name: Creating symbolic links for default and latest versions of ActiveMQ
+  file:
+    src={{activemq_install_path}}/{{activemq_name}}
+    path={{activemq_install_path}}/{{item}}
+    state=link
+    force=yes
+  with_items:
+    - default
+    - latest
+
+- name: Removing the ActiveMQ installation file
+  file: dest={{activemq_install_path}}/{{activemq_tar_filename}} state=absent
+
+- name: Preparing the "activemq" file to run as service
+  lineinfile: 'dest={{activemq_install_path}}/{{activemq_name}}/bin/activemq regexp="# chkconfig: 345 88 12" line="# chkconfig: 345 88 12"'
+
+- name: Creating a symbolic link to start service automatically
+  file: src={{activemq_install_path}}/{{activemq_name}}/bin/activemq dest=/etc/init.d/activemq state=link mode=0755
+
+- name: Checking if ActiveMQ is already installed as a service
+  command: chkconfig
+  register: amqservice
+  changed_when: false
+
+- name: Installing ActiveMQ as service
+  command: chkconfig --add /etc/init.d/activemq
+  when: not amqservice.stdout|search("activemq")

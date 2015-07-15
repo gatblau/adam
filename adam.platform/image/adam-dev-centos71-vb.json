@@ -1,0 +1,60 @@
+{
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'",
+      "scripts": [
+        "../provision/centos71/vagrant.sh",
+        "../provision/centos71/virtualbox.sh",
+        "../provision/centos71/ansible.sh",
+        "../provision/centos71/cleanup.sh"
+      ]
+    },
+    {
+      "type": "ansible-local",
+      "playbook_file": "../provision/adam/site.yml",
+      "inventory_file": "../provision/adam/inventory-local.txt",
+      "only": ["virtualbox-iso"],
+      "role_paths": [
+        "../provision/adam/roles/activemq",
+        "../provision/adam/roles/java",
+        "../provision/adam/roles/mariadb",
+        "../provision/adam/roles/prepare",
+        "../provision/adam/roles/wildfly"
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "output": "output/adam-dev-centos71-{{.Provider}}.box"
+    }
+  ],
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "boot_command": [
+        "<tab> text ks=http://{{.HTTPIP}}:{{.HTTPPort}}/centos71-ks.cfg<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 20480,
+      "guest_os_type": "RedHat_64",
+      "http_directory": ".",
+      "iso_checksum": "d07ab3e615c66a8b2e9a50f4852e6a77",
+      "iso_checksum_type": "md5",
+      "iso_url": "http://centos.mirrors.hoobly.com/7.1.1503/isos/x86_64/CentOS-7-x86_64-Minimal-1503-01.iso",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo '/sbin/halt -h -p' > /tmp/shutdown.sh; echo 'vagrant'|sudo -S sh '/tmp/shutdown.sh'",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "vm_name": "adam-dev",
+      "virtualbox_version_file": ".vbox_version",
+      "vboxmanage": [
+        [ "modifyvm", "{{.Name}}", "--memory", "1024" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "2" ]
+      ]
+    }
+  ]
+}

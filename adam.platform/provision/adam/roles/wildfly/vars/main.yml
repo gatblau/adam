@@ -1,0 +1,11 @@
+wildfly_zip_filename : wildfly-9.0.0.Final.zip
+wildfly_install_path : /usr/local/wildfly
+wildfly_name         : wildfly-9.0.0.Final
+jboss_user           : adam
+jboss_group          : adam
+jboss_admin_user     : admin
+jboss_admin_pwd      : Passw0rd!
+jdbc_connector_jar   : mysql-connector-java-5.1.36-bin.jar
+jdbc_connector_tar   : mysql-connector-java-5.1.36.tar.gz
+db_user              : adam
+db_password          : Passw0rd!

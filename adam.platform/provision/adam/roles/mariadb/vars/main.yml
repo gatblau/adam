@@ -1,0 +1,4 @@
+db_user            : adam
+db_pwd             : Passw0rd!
+db_name            : adam
+db_schema_file     : adam-schema.sql

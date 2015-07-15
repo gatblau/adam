@@ -1,0 +1,12 @@
+---
+- name: Copying ActiveMQ resource adapter to the remote server
+  copy: src=activemq-rar.rar dest=/tmp/activemq-rar.rar
+
+- name: Copying the broker resource adapter configuration CLI script to the remote server
+  template: src=broker_resx_adapter.cli.j2 dest=/tmp/broker_resx_adapter.cli mode=0755
+
+- name: Executing CLI commands to setup the ActiveMQ resource adapter in Wildfly
+  command: "{{wildfly_install_path}}/default/bin/jboss-cli.sh --file=/tmp/broker_resx_adapter.cli"
+
+- name: Removing the ActiveMQ resource adapter configuration script
+  file: path=/tmp/broker_resx_adapter.cli state=absent

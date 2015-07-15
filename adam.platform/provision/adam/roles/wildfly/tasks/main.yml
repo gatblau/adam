@@ -1,0 +1,23 @@
+---
+- name: Checking if Wildfly is installed
+  stat: path={{wildfly_install_path}}/{{wildfly_zip_filename}}
+  register: wildfly_zip
+
+- name: Installing the Wildfly servive
+  include: install_wildfly.yml
+  when: not wildfly_zip.stat.exists
+
+- name: Deploying JDBC module for MySQL to Wildfly
+  include: install_mysql_module.yml
+
+- name: Starting the Wildfly service
+  service: name=wildfly enabled=yes state=started
+
+- name: Configuring ADAM data source
+  include: conf_data_source.yml
+
+- name: Configuring ActiveMQ resource adapter
+  include: conf_resx_adapter.yml
+
+#- name: Deploying ADAM application to Wildfly
+#  include: deploy_adam.yml

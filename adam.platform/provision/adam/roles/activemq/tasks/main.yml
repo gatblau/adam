@@ -1,0 +1,12 @@
+---
+- name: Checking if ActiveMQ is installed
+  stat: path={{activemq_install_path}}/{{activemq_name}}
+  register: activemq_dir
+
+- name: Installing the Active MQ servive
+  include: install_activemq.yml
+  when: not activemq_dir.stat.exists
+
+- name: Starting the ActiveMQ service
+  service: name=activemq enabled=yes state=started
+

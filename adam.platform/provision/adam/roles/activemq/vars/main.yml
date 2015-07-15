@@ -1,0 +1,4 @@
+activemq_tar_filename : apache-activemq-5.11.1-bin.tar.gz
+activemq_download_uri : http://mirror.ox.ac.uk/sites/rsync.apache.org/activemq/5.11.1/{{activemq_tar_filename}}
+activemq_install_path : /usr/local/activemq
+activemq_name         : apache-activemq-5.11.1

@@ -1,0 +1,12 @@
+---
+- name: Configuring ADAM's environment
+  hosts: adam
+  sudo: yes
+  remote_user: root
+
+  roles:
+  - prepare
+  - java
+  - mariadb
+  - activemq
+  - wildfly

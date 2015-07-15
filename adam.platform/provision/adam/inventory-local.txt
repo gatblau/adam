@@ -1,0 +1,2 @@
+# used by packer
+adam ansible_connection=local

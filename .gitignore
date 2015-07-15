@@ -22,3 +22,20 @@ out/
 
 # Angular
 adam.svc/src/main/webapp/app/bower_components/
+
+# Vagrant
+adam.platform/.vagrant
+
+# Ansible downloaded files
+adam.platform/provision/adam/roles/java/files/*.rpm
+adam.platform/provision/adam/roles/wildfly/files/*.zip
+adam.platform/provision/adam/roles/wildfly/files/*.rar
+adam.platform/provision/adam/roles/wildfly/files/*.jar
+adam.platform/provision/adam/roles/wildfly/files/*.tar.gz
+adam.platform/provision/adam/roles/activemq/files/*.tar.gz
+adam.platform/provision/adam/roles/wildfly/files/*.war
+
+# Packer
+adam.platform/image/packer_cache
+adam.platform/provision/packer_cache
+adam.platform/image/output
