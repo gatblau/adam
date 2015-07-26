@@ -11,7 +11,7 @@ Vagrant.configure(2) do |config|
   config.vm.hostname = "adam"
   config.vm.define :adam do |adam| end
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "app/site.yml"
+    ansible.playbook = "adam/site.yml"
     ansible.inventory_path = "adam/inventory-remote.txt"
     ansible.sudo = true
     ansible.verbose = "vv"

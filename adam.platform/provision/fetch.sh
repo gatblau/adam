@@ -5,60 +5,65 @@
 
 ROOT='adam/roles/'
 
-JDK_TARGET=$ROOT'java/files/jdk-8u45-linux-x64.rpm'
+# creates the root folder if it does not exist
+if [[ ! -e $ROOT ]]; then
+    mkdir $ROOT
+fi
 
-JDK_URI='http://download.oracle.com/otn-pub/java/jdk/8u45-b14/jdk-8u45-linux-x64.rpm'
+download() {
+    # $1: download URI root
+    # $2: filename
+    # $3: target folder for downloaded file
+    # $4: http header
+    if [[ ! -e $3 ]]; then
+        mkdir $3
+    fi
+    if [[ ! -e $3$2 && $4 ]]; then
+        wget --header "$4" -O $3$2 $1$2
+    elif [[ ! -e $3$2 ]]; then
+        wget -O $3$2 $1$2
+    fi
+}
 
-WILDFLY_TARGET=$ROOT'wildfly/files/wildfly-9.0.0.Final.zip'
-WILDFLY_URI='http://download.jboss.org/wildfly/9.0.0.Final/wildfly-9.0.0.Final.zip'
+download_name() {
+    # $1: download full URI including filename
+    # $2: new filename
+    # $3: target folder for downloaded file
+    if [[ ! -e $3 ]]; then
+        mkdir $3
+    fi
+    if [[ ! -e $3$2 ]]; then
+        wget -O $3$2 $1
+    fi
+}
 
-ACTIVEMQ_BROKER_TARGET=$ROOT'activemq/files/apache-activemq-5.11.1-bin.tar.gz'
-ACTIVEMQ_BROKER_URI='http://mirror.ox.ac.uk/sites/rsync.apache.org/activemq/5.11.1/apache-activemq-5.11.1-bin.tar.gz'
+# download and unzips the mysql connector jar
+download_mysql_connector() {
+    ROLE="wildfly/files/"
+    CONN_FOLDER="mysql-connector-java-5.1.36"
+    CONN_FILE="mysql-connector-java-5.1.36.tar.gz"
+    if [[ ! -e $ROOT$ROLE$CONN_FILE ]]; then
+        download "http://dev.mysql.com/get/Downloads/Connector-J/" $CONN_FILE $ROOT$ROLE
+        tar -zxf $ROOT$ROLE$CONN_FILE -C $ROOT$ROLE *.jar
+        mv $ROOT$ROLE$CONN_FOLDER"/mysql-connector-java-5.1.36-bin.jar" $ROOT$ROLE
+        rm -r $ROOT$ROLE$CONN_FOLDER
+    fi
+}
 
-ACTIVEMQ_RAR_TARGET=$ROOT'wildfly/files/activemq-rar.rar'
-ACTIVEMQ_RAR_URI='http://repo1.maven.org/maven2/org/apache/activemq/activemq-rar/5.11.1/activemq-rar-5.11.1.rar'
-
-
-JDBC_CONNECTOR_TARGET=$ROOT'wildfly/files/mysql-connector-java-5.1.36.tar.gz'
-JDBC_CONNECTOR_URI='http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.36.tar.gz'
+# download the following files to the root folder if they do not exist
+download "http://download.oracle.com/otn-pub/java/jdk/8u51-b16/" "jdk-8u51-linux-x64.rpm" $ROOT"java/files/" "Cookie: oraclelicense=accept-securebackup-cookie"
+download "http://download.jboss.org/wildfly/9.0.0.Final/" "wildfly-9.0.0.Final.zip" $ROOT"wildfly/files/"
+download "http://mirror.ox.ac.uk/sites/rsync.apache.org/activemq/5.11.1/" "apache-activemq-5.11.1-bin.tar.gz" $ROOT"activemq/files/"
+download_name "http://repo1.maven.org/maven2/org/apache/activemq/activemq-rar/5.11.1/activemq-rar-5.11.1.rar" "activemq-rar.rar" $ROOT"wildfly/files/"
+download_mysql_connector
 
 ADAM_WAR_NAME='adam.svc-0.0.1-SNAPSHOT.war'
 ADAM_WAR_TARGET=$ROOT'wildfly/files/adam.war'
 ADAM_WAR_URI='../../adam.svc/build/libs/'$ADAM_WAR_NAME
 
-if [[ ! -e $JDK_TARGET ]]; then
-    echo Downloading the JDK $JDK_TARGET...
-    curl -L --header 'Cookie: oraclelicense=accept-securebackup-cookie' $JDK_URI -o $JDK_TARGET
-fi
-
-if [[ ! -e $WILDFLY_TARGET ]]; then
-    echo Downloading the Wildfly package $WILDFLY_TARGET...
-    curl -L $WILDFLY_URI -o $WILDFLY_TARGET
-fi
-
-if [[ ! -e $ACTIVEMQ_BROKER_TARGET ]]; then
-    echo Downloading the ACTIVEMQ package $ACTIVEMQ_BROKER_TARGET...
-    curl -L $ACTIVEMQ_BROKER_URI -o $ACTIVEMQ_BROKER_TARGET
-fi
-
-if [[ ! -e $ACTIVEMQ_RAR_TARGET ]]; then
-    echo Downloading the ACTIVEMQ RAR $ACTIVEMQ_RAR_TARGET...
-    curl -L $ACTIVEMQ_RAR_URI -o $ACTIVEMQ_RAR_TARGET
-fi
-
-if [[ ! -e $JDBC_CONNECTOR_TARGET ]]; then
-    echo Downloading the JDBC connector file $JDBC_CONNECTOR_TARGET...
-    curl -L $JDBC_CONNECTOR_URI -o $JDBC_CONNECTOR_TARGET
-    echo Untarring connector
-    tar -zxf $JDBC_CONNECTOR_TARGET -C $ROOT'wildfly/files' *.jar
-    echo cleaning up
-    mv $ROOT'wildfly/files/mysql-connector-java-5.1.36/mysql-connector-java-5.1.36-bin.jar' $ROOT'wildfly/files'
-    rm -r $ROOT'wildfly/files/mysql-connector-java-5.1.36'
-fi
-
 if [[ ! -e $ADAM_WAR_TARGET ]]; then
     if [[ ! -e $ADAM_WAR_URI ]]; then
-        echo ADAM WAR not ound, building it...
+        echo ADAM WAR not found, building it...
         SCRIPTPATH="$PWD"
         cd ../../adam.svc
         gradle build
